@@ -13,7 +13,7 @@ public interface UserService {
     User saveUser(UserRequest userRequest) ;
 
     // get all user
-    List<UserResponse> getAllUser() ;
+    List<User> getAllUser() ;
 
     // get single user of user id
 

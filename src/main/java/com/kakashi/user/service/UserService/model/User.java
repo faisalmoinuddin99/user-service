@@ -1,5 +1,6 @@
 package com.kakashi.user.service.UserService.model;
 
+import com.kakashi.user.service.UserService.dto.Hotel;
 import com.kakashi.user.service.UserService.dto.Rating;
 import jakarta.persistence.*;
 import lombok.*;
@@ -30,4 +31,6 @@ public class User {
 
     @Transient // transient ka matlab, hibernate rating ko db mai store nahi krega
     private List<Rating> ratings = new ArrayList<>();
+
+
 }
