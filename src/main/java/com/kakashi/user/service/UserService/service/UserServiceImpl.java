@@ -5,6 +5,7 @@ import com.kakashi.user.service.UserService.dto.Rating;
 import com.kakashi.user.service.UserService.dto.UserRequest;
 import com.kakashi.user.service.UserService.dto.UserResponse;
 import com.kakashi.user.service.UserService.exception.ResourceNotFoundException;
+import com.kakashi.user.service.UserService.external.services.HotelService;
 import com.kakashi.user.service.UserService.model.User;
 import com.kakashi.user.service.UserService.repository.UserRepository;
 import org.slf4j.Logger;
@@ -30,7 +31,13 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private HotelService hotelService ;
+
     private Logger logger = LoggerFactory.getLogger(UserService.class);
+
+    public UserServiceImpl() {
+    }
 
 
     @Override
@@ -73,9 +80,10 @@ public class UserServiceImpl implements UserService {
         List<Rating> hotelWithRatingList = ratings.stream().map(rating -> {
             // api call to hotel service to get the hotel
             // http://localhost:8082/api/hotels/01df1884-23a2-49ec-b540-df16fa3c457d
-            ResponseEntity<Hotel> hotelResponseEntity = restTemplate.getForEntity("http://HOTEL-SERVICE/api/hotels/" + rating.getHotelId(), Hotel.class);
-            Hotel hotel = hotelResponseEntity.getBody();
-            logger.info("response status code: {} ", hotelResponseEntity.getStatusCode());
+//            ResponseEntity<Hotel> hotelResponseEntity = restTemplate.getForEntity("http://HOTEL-SERVICE/api/hotels/" + rating.getHotelId(), Hotel.class);
+//            Hotel hotel = hotelResponseEntity.getBody();
+            Hotel hotel = hotelService.getHotel(rating.getHotelId()) ; // using Feign client service
+//            logger.info("response status code: {} ", hotelResponseEntity.getStatusCode());
 
             // set the hotel to rating
             rating.setHotel(hotel);
